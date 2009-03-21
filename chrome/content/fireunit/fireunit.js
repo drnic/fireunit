@@ -435,9 +435,8 @@ FBL.ns(function() { with (FBL) {
               var result = (arguments.length > 2) ? 
                                 new Firebug.FireUnitModule.TestResult(win, pass, msg, expected, actual) :
                                 new Firebug.FireUnitModule.TestResult(win, pass, msg);
-              if ( testQueue ) {
-                queueResults.push(result);
-              } else {
+              queueResults.push(result);
+              if ( !testQueue ) {
                 var panel = context.getPanel(panelName);
                 panel.appendResults([result]);
               }
@@ -449,9 +448,8 @@ FBL.ns(function() { with (FBL) {
              */
             log: function( msg ) {
               var result = new Firebug.FireUnitModule.TestResult(win, undefined, msg, undefined, undefined, true);
-              if ( testQueue ) {
-                queueResults.push(result);
-              } else {
+              queueResults.push(result);
+              if ( !testQueue ) {
                 var panel = context.getPanel(panelName);
                 panel.appendResults([result]);
               }
@@ -468,9 +466,8 @@ FBL.ns(function() { with (FBL) {
               var pass = expected == actuall;
               var result = new Firebug.FireUnitModule.TestResult(win, pass, msg, 
                   expected, actuall);
-              if ( testQueue ) {
-                queueResults.push(result);
-              } else {
+              queueResults.push(result);
+              if ( !testQueue ) {
                 var panel = context.getPanel(panelName);
                 panel.appendResults([result]);
               }
@@ -602,6 +599,9 @@ FBL.ns(function() { with (FBL) {
                     Firebug.FireUnitModule.Privilege.enable();
                 else 
                     Firebug.FireUnitModule.Privilege.disable();
+            },
+            queueResults: function() {
+              return queueResults;
             }
         };
     
